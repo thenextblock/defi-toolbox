@@ -1,0 +1,10 @@
+# Ignore everyhing by default
+/*
+
+# Do not ignore
+!/lib
+!/scripts
+!/tasks
+!/test
+!/contracts
+/contracts/vendor

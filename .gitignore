@@ -1,0 +1,34 @@
+# Project related
+dist/
+build/
+/types
+/coverage
+.coverage_artifacts
+.coverage_cache
+.coverage_contracts
+.password
+.env
+deployed-contracts.json
+
+# Hardhat
+/cache
+/artifacts
+
+# Node
+/node_modules
+
+# IDEA
+.idea
+
+# Visual Studio Code
+.vscode
+
+# Sublime Text
+.sublime-*
+
+# macOS
+.DS_Store
+
+yarn.lock
+package-lock.json
+
