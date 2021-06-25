@@ -13,8 +13,8 @@ const BUIDLEREVM_CHAINID = 31337;
 
 module.exports = {
   tenderly: {
-    project: 'flashbot',
-    username: 'achiko',
+    project: '',
+    username: '',
   },
   defaultNetwork: 'hardhat',
   networks: {
