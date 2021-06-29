@@ -1,4 +1,4 @@
-import { ethers } from 'hardhat';
+import { HardhatRuntimeEnvironment } from 'hardhat/types';
 import { Signer } from 'ethers';
 import {
   NFTDescriptor__factory,
@@ -14,14 +14,14 @@ import {
   TickLens,
   NFTDescriptor,
   NonfungibleTokenPositionDescriptor,
-  WETH9,
   SwapRouter,
   NonfungiblePositionManager,
 } from '../types';
 
 export class UniswapV3Deployment {
+  private readonly hre: HardhatRuntimeEnvironment;
   public readonly deployer: Signer;
-  public readonly weth: WETH9;
+  public readonly weth: string;
   public uniswapV3Factory?: UniswapV3Factory;
   public proxyAdmin?: ProxyAdmin;
   public tikLens?: TickLens;
@@ -29,9 +29,10 @@ export class UniswapV3Deployment {
   public swapRouter?: SwapRouter;
   public nftDescriptor?: NFTDescriptor;
   public nonfungibleTokenPositionDescriptor?: NonfungibleTokenPositionDescriptor;
-  public nonfungiblePositionManager?: NonfungiblePositionManager;
+  public declare nonfungiblePositionManager: NonfungiblePositionManager;
 
-  constructor(deployer: Signer, weth: WETH9) {
+  constructor(hre: HardhatRuntimeEnvironment, deployer: Signer, weth: string) {
+    this.hre = hre;
     this.deployer = deployer;
     this.weth = weth;
   }
@@ -59,7 +60,7 @@ export class UniswapV3Deployment {
       throw 'UniswapV3Factory is not deployed';
     }
     const contract = new Quoter__factory(this.deployer);
-    this.quoter = await contract.deploy(this.weth.address, this.uniswapV3Factory.address!);
+    this.quoter = await contract.deploy(this.uniswapV3Factory.address, this.weth);
     return this.quoter;
   }
 
@@ -68,7 +69,7 @@ export class UniswapV3Deployment {
       throw 'UniswapV3Factory is not deployed.';
     }
     const contract = new SwapRouter__factory(this.deployer);
-    this.swapRouter = await contract.deploy(this.uniswapV3Factory.address, this.weth.address);
+    this.swapRouter = await contract.deploy(this.uniswapV3Factory.address, this.weth);
     return this.swapRouter;
   }
 
@@ -85,13 +86,16 @@ export class UniswapV3Deployment {
     if (!this.nftDescriptor) {
       throw 'NFTDescriptor is not deployed.';
     }
-    const contract = await ethers.getContractFactory('NonfungibleTokenPositionDescriptor', {
-      libraries: {
-        NFTDescriptor: this.nftDescriptor?.address!,
-      },
-    });
+    const contract = await this.hre.ethers.getContractFactory(
+      'NonfungibleTokenPositionDescriptor',
+      {
+        libraries: {
+          NFTDescriptor: this.nftDescriptor.address,
+        },
+      }
+    );
     this.nonfungibleTokenPositionDescriptor = (await contract.deploy(
-      this.weth.address
+      this.weth
     )) as NonfungibleTokenPositionDescriptor;
     return this.nonfungibleTokenPositionDescriptor;
   }
@@ -106,7 +110,7 @@ export class UniswapV3Deployment {
     const contract = new NonfungiblePositionManager__factory(this.deployer);
     this.nonfungiblePositionManager = await contract.deploy(
       this.uniswapV3Factory.address,
-      this.weth.address,
+      this.weth,
       this.nonfungibleTokenPositionDescriptor.address
     );
     return this.nonfungiblePositionManager;
@@ -120,13 +124,31 @@ export class UniswapV3Deployment {
   }
 
   async deployAll() {
-    await this.deployUniswapV3Factory();
-    await this.deployProxyAdmin();
-    await this.deployTikLens();
-    await this.deployQuoter();
-    await this.deploySwapRouter();
-    await this.deployNFTDescriptor();
-    await this.deployNonfungibleTokenPositionDescriptor();
-    await this.deployNonfungiblePositionManager();
+    const factory = await this.deployUniswapV3Factory();
+    console.log(`UniswapV3Factory: ${factory.address}`);
+
+    const proxyAdmin = await this.deployProxyAdmin();
+    console.log(`ProxyAdmin: ${proxyAdmin.address}`);
+
+    const tikLens = await this.deployTikLens();
+    console.log(`TikLens: ${tikLens.address}`);
+
+    const quoter = await this.deployQuoter();
+    console.log(`Quoter: ${quoter.address}`);
+
+    const swapRouter = await this.deploySwapRouter();
+    console.log(`SwapRouter: ${swapRouter.address}`);
+
+    const nftDescriptor = await this.deployNFTDescriptor();
+    console.log(`NFTDescriptor: ${nftDescriptor.address}`);
+
+    const nonfungibleTokenPositionDescriptor =
+      await this.deployNonfungibleTokenPositionDescriptor();
+    console.log(
+      `NonfungibleTokenPositionDescriptor: ${nonfungibleTokenPositionDescriptor.address}`
+    );
+
+    const nonfungiblePositionManager = await this.deployNonfungiblePositionManager();
+    console.log(`NonfungiblePositionManager: ${nonfungiblePositionManager.address}`);
   }
 }
