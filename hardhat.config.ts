@@ -15,33 +15,33 @@ const BUIDLEREVM_CHAINID = 31337;
 
 module.exports = {
   tenderly: {
-    project: '',
-    username: '',
+    project: process.env.TENDERLY_PROJECT,
+    username: process.env.TENDERLY_USERNAME,
   },
-  defaultNetwork: 'hardhat',
-  networks: {
-    local: {
-      hardfork: 'berlin',
-      url: 'http://127.0.0.1:8545',
-      blockGasLimit: DEFAULT_BLOCK_GAS_LIMIT,
-      gas: 'auto',
-      gasPrice: 'auto',
-      gasMultiplier: 5,
-      // chainId: BUIDLEREVM_CHAINID,
-    },
-    hardhat: {
-      hardfork: 'berlin',
-      blockGasLimit: DEFAULT_BLOCK_GAS_LIMIT,
-      gas: 'auto',
-      gasPrice: 8000000000,
-      chainId: 1,
-      throwOnTransactionFailures: true,
-      throwOnCallFailures: true,
-      forking: {
-        url: JSON_RPC_URL,
-      },
-    },
-  },
+  // defaultNetwork: 'hardhat',
+  // networks: {
+  //   local: {
+  //     hardfork: 'berlin',
+  //     url: 'http://127.0.0.1:8545',
+  //     blockGasLimit: DEFAULT_BLOCK_GAS_LIMIT,
+  //     gas: 'auto',
+  //     gasPrice: 'auto',
+  //     gasMultiplier: 5,
+  //     // chainId: BUIDLEREVM_CHAINID,
+  //   },
+  //   hardhat: {
+  //     hardfork: 'berlin',
+  //     blockGasLimit: DEFAULT_BLOCK_GAS_LIMIT,
+  //     gas: 'auto',
+  //     gasPrice: 8000000000,
+  //     chainId: 1,
+  //     throwOnTransactionFailures: true,
+  //     throwOnCallFailures: true,
+  //     forking: {
+  //       url: JSON_RPC_URL,
+  //     },
+  //   },
+  // },
   typechain: {
     outDir: 'types',
     target: 'ethers-v5',
