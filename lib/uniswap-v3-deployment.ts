@@ -116,13 +116,6 @@ export class UniswapV3Deployment {
     return this.nonfungiblePositionManager;
   }
 
-  async createPool(token0: string, token1: string, fee: number) {
-    if (!this.uniswapV3Factory) {
-      throw 'UniswapV3Factory is not deployed';
-    }
-    return await this.uniswapV3Factory.createPool(token0, token1, fee);
-  }
-
   async deployAll() {
     const factory = await this.deployUniswapV3Factory();
     console.log(`UniswapV3Factory: ${factory.address}`);
