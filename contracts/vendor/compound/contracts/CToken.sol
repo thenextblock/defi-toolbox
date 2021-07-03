@@ -7,6 +7,8 @@ import "./Exponential.sol";
 import "./EIP20Interface.sol";
 import "./InterestRateModel.sol";
 
+import "hardhat/console.sol";
+
 /**
  * @title Compound's CToken Contract
  * @notice Abstract base for CTokens
@@ -382,28 +384,38 @@ contract CToken is CTokenInterface, Exponential, TokenErrorReporter {
      *   up to the current block and writes new checkpoint to storage.
      */
     function accrueInterest() public returns (uint) {
+console.log("cToken => accrueInterest");
         /* Remember the initial block number */
         uint currentBlockNumber = getBlockNumber();
+console.log("cToken => accrueInterest -> currentBlockNumber %s", currentBlockNumber);
         uint accrualBlockNumberPrior = accrualBlockNumber;
 
+console.log('cToken - accrueInterest -> Short-circuit accumulating 0 interest ');
         /* Short-circuit accumulating 0 interest */
         if (accrualBlockNumberPrior == currentBlockNumber) {
             return uint(Error.NO_ERROR);
         }
 
-        /* Read the previous values out of storage */
+      /* Read the previous values out of storage */
+console.log('cToken - accrueInterest -> Read the previous values out of storage ');
         uint cashPrior = getCashPrior();
+console.log('cToken => accrueInterest -> cashPrior %s', cashPrior);
         uint borrowsPrior = totalBorrows;
+console.log('cToken => accrueInterest -> borrowsPrior %s ', borrowsPrior);
         uint reservesPrior = totalReserves;
+console.log('cToken => accrueInterest -> reservesPrior %s ', reservesPrior);
         uint borrowIndexPrior = borrowIndex;
+console.log('cToken => accrueInterest -> borrowIndexPrior %s ', borrowIndexPrior);
 
         /* Calculate the current borrow interest rate */
         uint borrowRateMantissa = interestRateModel.getBorrowRate(cashPrior, borrowsPrior, reservesPrior);
+console.log('cToken => accrueInterest -> borrowRateMantissa %s ', borrowRateMantissa);
         require(borrowRateMantissa <= borrowRateMaxMantissa, "borrow rate is absurdly high");
 
         /* Calculate the number of blocks elapsed since the last accrual */
         (MathError mathErr, uint blockDelta) = subUInt(currentBlockNumber, accrualBlockNumberPrior);
         require(mathErr == MathError.NO_ERROR, "could not calculate block delta");
+console.log('cToken => accrueInterest -> blockDelta %s ', blockDelta);
 
         /*
          * Calculate the interest accumulated into borrows and reserves and the new index:
@@ -421,26 +433,31 @@ contract CToken is CTokenInterface, Exponential, TokenErrorReporter {
         uint borrowIndexNew;
 
         (mathErr, simpleInterestFactor) = mulScalar(Exp({mantissa: borrowRateMantissa}), blockDelta);
+console.log('cToken => accrueInterest -> (simpleInterestFactor) = (%s)', simpleInterestFactor.mantissa);
         if (mathErr != MathError.NO_ERROR) {
             return failOpaque(Error.MATH_ERROR, FailureInfo.ACCRUE_INTEREST_SIMPLE_INTEREST_FACTOR_CALCULATION_FAILED, uint(mathErr));
         }
 
         (mathErr, interestAccumulated) = mulScalarTruncate(simpleInterestFactor, borrowsPrior);
+console.log('cToken => accrueInterest -> (mathErr, interestAccumulated) = (%s, %s)', uint(mathErr), interestAccumulated);
         if (mathErr != MathError.NO_ERROR) {
             return failOpaque(Error.MATH_ERROR, FailureInfo.ACCRUE_INTEREST_ACCUMULATED_INTEREST_CALCULATION_FAILED, uint(mathErr));
         }
 
         (mathErr, totalBorrowsNew) = addUInt(interestAccumulated, borrowsPrior);
+console.log('cToken => accrueInterest -> (mathErr, totalBorrowsNew) = (%s, %s)', uint(mathErr), totalBorrowsNew);
         if (mathErr != MathError.NO_ERROR) {
             return failOpaque(Error.MATH_ERROR, FailureInfo.ACCRUE_INTEREST_NEW_TOTAL_BORROWS_CALCULATION_FAILED, uint(mathErr));
         }
 
         (mathErr, totalReservesNew) = mulScalarTruncateAddUInt(Exp({mantissa: reserveFactorMantissa}), interestAccumulated, reservesPrior);
+console.log('cToken => accrueInterest -> (mathErr, totalReservesNew) = (%s, %s)', uint(mathErr), totalReservesNew);
         if (mathErr != MathError.NO_ERROR) {
             return failOpaque(Error.MATH_ERROR, FailureInfo.ACCRUE_INTEREST_NEW_TOTAL_RESERVES_CALCULATION_FAILED, uint(mathErr));
         }
 
         (mathErr, borrowIndexNew) = mulScalarTruncateAddUInt(simpleInterestFactor, borrowIndexPrior, borrowIndexPrior);
+console.log('cToken => accrueInterest -> (mathErr, borrowIndexNew) = (%s, %s)', uint(mathErr), borrowIndexNew);
         if (mathErr != MathError.NO_ERROR) {
             return failOpaque(Error.MATH_ERROR, FailureInfo.ACCRUE_INTEREST_NEW_BORROW_INDEX_CALCULATION_FAILED, uint(mathErr));
         }
@@ -455,6 +472,7 @@ contract CToken is CTokenInterface, Exponential, TokenErrorReporter {
         totalBorrows = totalBorrowsNew;
         totalReserves = totalReservesNew;
 
+        //console.log("cToken => accrueInterest -> (cashPrior, interestAccumulated, borrowIndexNew, totalBorrowsNew) (%s,%s,%s,%s)", cashPrior, interestAccumulated, borrowIndexNew, totalBorrowsNew);
         /* We emit an AccrueInterest event */
         emit AccrueInterest(cashPrior, interestAccumulated, borrowIndexNew, totalBorrowsNew);
 
@@ -469,6 +487,7 @@ contract CToken is CTokenInterface, Exponential, TokenErrorReporter {
      */
     function mintInternal(uint mintAmount) internal nonReentrant returns (uint, uint) {
         uint error = accrueInterest();
+        console.log('cToken => mintInternal Error : %s ', uint(Error.NO_ERROR));
         if (error != uint(Error.NO_ERROR)) {
             // accrueInterest emits logs on errors, but we still want to log the fact that an attempted borrow failed
             return (fail(Error(error), FailureInfo.MINT_ACCRUE_INTEREST_FAILED), 0);
@@ -712,14 +731,16 @@ contract CToken is CTokenInterface, Exponential, TokenErrorReporter {
       * @param borrowAmount The amount of the underlying asset to borrow
       * @return uint 0=success, otherwise a failure (see ErrorReporter.sol for details)
       */
-    function borrowInternal(uint borrowAmount) internal nonReentrant returns (uint) {
+    // nonReentrant
+    function borrowInternal(uint borrowAmount) internal  returns (uint) {
+        console.log('cToken => borrowInternal');
         uint error = accrueInterest();
-        if (error != uint(Error.NO_ERROR)) {
-            // accrueInterest emits logs on errors, but we still want to log the fact that an attempted borrow failed
-            return fail(Error(error), FailureInfo.BORROW_ACCRUE_INTEREST_FAILED);
-        }
-        // borrowFresh emits borrow-specific logs on errors, so we don't need to
-        return borrowFresh(msg.sender, borrowAmount);
+         if (error != uint(Error.NO_ERROR)) {
+             // accrueInterest emits logs on errors, but we still want to log the fact that an attempted borrow failed
+             return fail(Error(error), FailureInfo.BORROW_ACCRUE_INTEREST_FAILED);
+         }
+         // borrowFresh emits borrow-specific logs on errors, so we don't need to
+         return borrowFresh(msg.sender, borrowAmount);
     }
 
     struct BorrowLocalVars {
@@ -735,9 +756,13 @@ contract CToken is CTokenInterface, Exponential, TokenErrorReporter {
       * @return uint 0=success, otherwise a failure (see ErrorReporter.sol for details)
       */
     function borrowFresh(address payable borrower, uint borrowAmount) internal returns (uint) {
+console.log('-');
+console.log('cToken => borrowFresh');
         /* Fail if borrow not allowed */
         uint allowed = comptroller.borrowAllowed(address(this), borrower, borrowAmount);
+console.log('cToken => borrowFresh -> borrowAllowed %s', allowed);
         if (allowed != 0) {
+console.log('cToken => borrowFresh -> Borrow Not Allowed');
             return failOpaque(Error.COMPTROLLER_REJECTION, FailureInfo.BORROW_COMPTROLLER_REJECTION, allowed);
         }
 
@@ -1425,6 +1450,7 @@ contract CToken is CTokenInterface, Exponential, TokenErrorReporter {
      * @dev Prevents a contract from calling itself, directly or indirectly.
      */
     modifier nonReentrant() {
+        console.log('Entered :::: ? ');
         require(_notEntered, "re-entered");
         _notEntered = false;
         _;

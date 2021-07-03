@@ -328,6 +328,7 @@ contract Comptroller is ComptrollerV5Storage, ComptrollerInterface, ComptrollerE
      * @return 0 if the borrow is allowed, otherwise a semi-opaque error code (See ErrorReporter.sol)
      */
     function borrowAllowed(address cToken, address borrower, uint borrowAmount) external returns (uint) {
+console.log('Comptroller => borrowAllowed');
         // Pausing is a very serious situation - we revert to sound the alarms
         require(!borrowGuardianPaused[cToken], "borrow is paused");
 
@@ -348,8 +349,9 @@ contract Comptroller is ComptrollerV5Storage, ComptrollerInterface, ComptrollerE
             // it should be impossible to break the important invariant
             assert(markets[cToken].accountMembership[borrower]);
         }
-
+console.log('Comptroller => borrowAllowed -> oracle.getUnderlyingPrice %s ', uint(oracle.getUnderlyingPrice(CToken(cToken))));
         if (oracle.getUnderlyingPrice(CToken(cToken)) == 0) {
+console.log('Comptroller => borrowAllowed -> oracle.getUnderlyingPrice PRICE_ERROR !!! ');
             return uint(Error.PRICE_ERROR);
         }
 
@@ -949,7 +951,7 @@ contract Comptroller is ComptrollerV5Storage, ComptrollerInterface, ComptrollerE
       * @param newBorrowCaps The new borrow cap values in underlying to be set. A value of 0 corresponds to unlimited borrowing.
       */
     function _setMarketBorrowCaps(CToken[] calldata cTokens, uint[] calldata newBorrowCaps) external {
-    	require(msg.sender == admin || msg.sender == borrowCapGuardian, "only admin or borrow cap guardian can set borrow caps"); 
+    	require(msg.sender == admin || msg.sender == borrowCapGuardian, "only admin or borrow cap guardian can set borrow caps");
 
         uint numMarkets = cTokens.length;
         uint numBorrowCaps = newBorrowCaps.length;

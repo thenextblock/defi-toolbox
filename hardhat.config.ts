@@ -7,6 +7,7 @@ import './tasks/accounts';
 import './tasks/weth-deploy';
 import './tasks/uniswap-deploy';
 import './tasks/uniswap-create-pool';
+import './tasks/erc20-deploy';
 
 dotenv.config();
 const JSON_RPC_URL = process.env.JSON_RPC_URL;
@@ -22,27 +23,24 @@ module.exports = {
   },
   defaultNetwork: 'hardhat',
   networks: {
-    // local: {
-    //   hardfork: 'berlin',
-    //   url: 'http://127.0.0.1:8545',
-    //   blockGasLimit: DEFAULT_BLOCK_GAS_LIMIT,
-    //   gas: 'auto',
-    //   gasPrice: 'auto',
-    //   gasMultiplier: 5,
-    //   // chainId: BUIDLEREVM_CHAINID,
-    // },
+    local: {
+      hardfork: 'berlin',
+      url: 'http://127.0.0.1:8545',
+      blockGasLimit: DEFAULT_BLOCK_GAS_LIMIT,
+      gas: 'auto',
+      gasPrice: 'auto',
+      gasMultiplier: 5,
+      // chainId: BUIDLEREVM_CHAINID,
+    },
     hardhat: {
       hardfork: 'berlin',
-      // blockGasLimit: DEFAULT_BLOCK_GAS_LIMIT,
-      // gas: 'auto',
-      // gasPrice: 8000000000,
-      // chainId: 1,
+      blockGasLimit: DEFAULT_BLOCK_GAS_LIMIT,
+      gas: 'auto',
+      gasPrice: 8000000000,
+      chainId: 1,
       throwOnTransactionFailures: true,
       throwOnCallFailures: true,
-      allowUnlimitedContractSize: true,
-      // forking: {
-      //   url: JSON_RPC_URL,
-      // },
+      allowUnlimitedContractSize : true,
     },
   },
   typechain: {

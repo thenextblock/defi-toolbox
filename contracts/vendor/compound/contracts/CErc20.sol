@@ -1,6 +1,7 @@
 pragma solidity ^0.5.16;
 
 import "./CToken.sol";
+import "hardhat/console.sol";
 
 /**
  * @title Compound's CErc20 Contract
@@ -25,6 +26,8 @@ contract CErc20 is CToken, CErc20Interface {
                         string memory name_,
                         string memory symbol_,
                         uint8 decimals_) public {
+
+        admin = msg.sender;
         // CToken initialize does the bulk of the work
         super.initialize(comptroller_, interestRateModel_, initialExchangeRateMantissa_, name_, symbol_, decimals_);
 
@@ -72,6 +75,7 @@ contract CErc20 is CToken, CErc20Interface {
       * @return uint 0=success, otherwise a failure (see ErrorReporter.sol for details)
       */
     function borrow(uint borrowAmount) external returns (uint) {
+        console.log('cErc20 => borrow');
         return borrowInternal(borrowAmount);
     }
 
@@ -136,7 +140,10 @@ contract CErc20 is CToken, CErc20Interface {
      * @return The quantity of underlying tokens owned by this contract
      */
     function getCashPrior() internal view returns (uint) {
+console.log('cErc20 => getCashPrior');
+console.log('cErc20 => getCashPrior -> underlying %s', underlying);
         EIP20Interface token = EIP20Interface(underlying);
+console.log('cErc20 => getCashPrior -> balanceOf(%s) = %s', token.balanceOf(address(this)));
         return token.balanceOf(address(this));
     }
 
