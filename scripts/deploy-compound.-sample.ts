@@ -79,13 +79,6 @@ async function main() {
   const cUSDC = await cErc20.deploy();
   const _initialExchangeRateMantissa = '1000000000000000000';
 
-  // address underlying_,
-  // ComptrollerInterface comptroller_,
-  // InterestRateModel interestRateModel_,
-  // uint initialExchangeRateMantissa_,
-  // string memory name_,
-  // string memory symbol_,
-  // uint8 decimals_
   await cUSDC['initialize(address,address,address,uint256,string,string,uint8)'](
     usdc.address,
     comptroller.address,
@@ -97,20 +90,6 @@ async function main() {
   );
 
   console.log('cUSDC : ', cUSDC.address);
-
-  // const CErc20Delegator = new CErc20Delegator__factory(deployer);
-  // await CErc20Delegator.deploy(
-  //   _underLying,
-  //   _comptroller,
-  //   _interestRateModel,
-  //   _initialExchangeRateMantissa,
-  //   'Compound USDC Token',
-  //   'cUSDC',
-  //   6,
-  //   tomelock.address,
-  //   cUSDC.address,
-  //   '0x'
-  // );
 
   // Deploy cEther
   const cEtherFactory = new CEther__factory(deployer);
