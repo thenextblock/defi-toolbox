@@ -8,6 +8,7 @@ import './tasks/weth-deploy';
 import './tasks/uniswap-deploy';
 import './tasks/uniswap-create-pool';
 import './tasks/erc20-deploy';
+import './tasks/compoundV2';
 
 dotenv.config();
 const JSON_RPC_URL = process.env.JSON_RPC_URL;
