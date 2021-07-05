@@ -7,6 +7,7 @@ export function initTasks() {
 }
 export const GET_ACCOUNTS = 'accounts';
 export const DEPLOY_ERC20 = 'defi:erc20:deploy';
+export const MINT_ERC20 = 'defi:erc20:mint';
 export const DEPLOY_WETH = 'defi:weth:deploy';
 export const DEPLOY_COMPUND_CORE = 'defi:compound:deploy-core';
 export const DEPLOY_COMPUND_CTOKENS = 'defi:compound:deploy-ctokens';
