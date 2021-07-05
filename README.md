@@ -99,7 +99,7 @@ await hre.run(CREATE_UNISWAP_POOL, {
 ```bash
   npx hardhat defi:compound:deploy-core
 ```
-**`defi:compound:deploy-ctokens`** – _add markets into Compound protocol _
+**`defi:compound:deploy-ctokens`** – _add markets into Compound protocol_
 ```bash
   npx hardhat defi:compound:deploy-ctokens \
     --comptroller 0x.. \
@@ -107,4 +107,36 @@ await hre.run(CREATE_UNISWAP_POOL, {
     --name "Compound USDC" \
     --symbol USDC \
     --interestratemodel 0x..
+```
+
+
+<br>
+
+### AAVE V2
+**`defi:aave:deploy-core`** – _deploy AAVE V2 core contracts_
+```bash
+  // not implemented
+```
+
+<br>
+
+### UMA
+**`defi:uma:deploy`** – _deploy UMA_
+```bash
+  // not implemented
+```
+
+<br>
+
+### Balancer V2
+**`defi:balancer:deploy`** – _deploy Balancer_
+```bash
+  // not implemented
+```
+<br>
+
+### Synthetix
+**`defi:synthetix:deploy`** – _deploy Synthetix_
+```bash
+  // not implemented
 ```
