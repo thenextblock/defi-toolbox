@@ -30,25 +30,25 @@ async function main() {
     decimals: '18',
   });
 
-  await tokenA.mint(deployer.address, '50000000000000000000000000');
-  await tokenB.mint(deployer.address, '30000000000000000000000000');
+  await tokenA.mint(deployer.address, BigInt(5e25));
+  await tokenB.mint(deployer.address, BigInt(3e24));
 
   await hre.run(CREATE_UNISWAP_POOL, {
     contract: uniswapV3.nonfungiblePositionManager.address,
     token0: tokenA.address,
     token1: tokenB.address,
-    amount0: '10000000000000000000000',
-    amount1: '200000000000000000000',
+    amount0: BigInt(1e22),
+    amount1: BigInt(2e20),
   });
 
   await hre.run(ADD_UNISWAP_POOL_LIQUIDITY, {
     contract: uniswapV3.nonfungiblePositionManager.address,
     token0: tokenA.address,
     token1: tokenB.address,
-    amount0: '10000000000000000000000',
-    amount1: '200000000000000000000',
-    amount0min: '9000000000000000000000',
-    amount1min: '180000000000000000000',
+    amount0: BigInt(1e22),
+    amount1: BigInt(2e20),
+    amount0min: BigInt(9.9e21),
+    amount1min: BigInt(1.8e20),
     deadline: '5',
   });
 }
