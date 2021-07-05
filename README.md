@@ -99,7 +99,7 @@ await hre.run(CREATE_UNISWAP_POOL, {
 ```bash
   npx hardhat defi:compound:deploy-core
 ```
-**`defi:compound:deploy-core`** – _add markets into Compound protocol _
+**`defi:compound:deploy-ctokens`** – _add markets into Compound protocol _
 ```bash
   npx hardhat defi:compound:deploy-ctokens \
     --comptroller 0x.. \
