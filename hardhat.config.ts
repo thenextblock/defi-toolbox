@@ -3,13 +3,11 @@ import '@typechain/hardhat';
 import '@tenderly/hardhat-tenderly';
 import 'hardhat-tracer';
 import dotenv from 'dotenv';
-import './tasks/accounts';
-import './tasks/weth';
-import './tasks/uniswap-v3';
-import './tasks/erc20';
-import './tasks/compound-v2';
+import { initTasks } from './tasks';
 
 dotenv.config();
+initTasks();
+
 const JSON_RPC_URL = process.env.JSON_RPC_URL;
 const DEFAULT_BLOCK_GAS_LIMIT = 12450000;
 const DEFAULT_GAS_MUL = 5;

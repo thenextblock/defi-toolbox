@@ -12,8 +12,9 @@ import {
   TICK_SPACINGS,
   TickMath,
 } from '@uniswap/v3-sdk';
+import { ADD_UNISWAP_POOL_LIQUIDITY, CREATE_UNISWAP_POOL, DEPLOY_UNISWAP } from './index';
 
-task('uniswap:deploy', 'Deploy Uniswap V3 contracts')
+task(DEPLOY_UNISWAP, 'Deploy Uniswap V3 contracts')
   .addOptionalParam('weth', 'WETH9 contract address')
   .setAction(async (taskArgs, hre) => {
     const deployer = (await hre.ethers.getSigners())[0];
@@ -23,7 +24,7 @@ task('uniswap:deploy', 'Deploy Uniswap V3 contracts')
     return uniswap;
   });
 
-task('uniswap:create-pool', 'Create Uniswap V3 pool')
+task(CREATE_UNISWAP_POOL, 'Create Uniswap V3 pool')
   .addParam('contract', 'NonfungiblePositionManager address')
   .addParam('token0', 'ERC2-20 token address')
   .addParam('token1', 'ERC2-20 token address')
@@ -58,7 +59,7 @@ task('uniswap:create-pool', 'Create Uniswap V3 pool')
     return poolAddress;
   });
 
-task('uniswap:add-liquidity', 'Add liquidity to a pool')
+task(ADD_UNISWAP_POOL_LIQUIDITY, 'Add liquidity to a pool')
   .addParam('contract', 'NonfungiblePositionManager address')
   .addParam('token0', 'ERC2-20 token address')
   .addParam('token1', 'ERC2-20 token address')

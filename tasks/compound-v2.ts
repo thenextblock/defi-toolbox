@@ -10,8 +10,9 @@ import {
   WhitePaperInterestRateModel__factory,
 } from '../types';
 import { CompoundV2Deplotyment } from '../lib/compound-v2-deployment';
+import { DEPLOY_COMPUND_CORE, DEPLOY_COMPUND_CTOKENS } from './index';
 
-task('compound:deploy-core', 'Deploy Compund V2 contracts').setAction(async (args, hre) => {
+task(DEPLOY_COMPUND_CORE, 'Deploy Compund V2 contracts').setAction(async (args, hre) => {
   const [deployer] = await hre.ethers.getSigners();
 
   const simpleOracle = await new SimplePriceOracle__factory(deployer).deploy();
@@ -45,7 +46,7 @@ task('compound:deploy-core', 'Deploy Compund V2 contracts').setAction(async (arg
   return compundV2Deployment;
 });
 
-task('compound:deploy-ctokens', 'Deploy cTokens')
+task(DEPLOY_COMPUND_CTOKENS, 'Deploy cTokens')
   .addParam('comptroller', 'Comptroller address')
   .addParam('wpirm', 'WhitePaperInterestRateModel address')
   .setAction(async (args, hre) => {

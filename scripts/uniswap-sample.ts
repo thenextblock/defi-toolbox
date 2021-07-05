@@ -1,26 +1,33 @@
 import hre from 'hardhat';
 import { UniswapV3Deployment } from '../lib/uniswap-v3-deployment';
 import { TokenTemplate, WETH9 } from '../types';
+import {
+  ADD_UNISWAP_POOL_LIQUIDITY,
+  CREATE_UNISWAP_POOL,
+  DEPLOY_ERC20,
+  DEPLOY_UNISWAP,
+  DEPLOY_WETH,
+} from '../tasks';
 
 async function main() {
-  const weth: WETH9 = await hre.run('weth:deploy');
+  const weth: WETH9 = await hre.run(DEPLOY_WETH);
 
-  const uniswapV3: UniswapV3Deployment = await hre.run('uniswap:deploy', {
+  const uniswapV3: UniswapV3Deployment = await hre.run(DEPLOY_UNISWAP, {
     weth: weth.address,
   });
 
-  const tokenA: TokenTemplate = await hre.run('erc20:deploy', {
+  const tokenA: TokenTemplate = await hre.run(DEPLOY_ERC20, {
     symbol: 'AAA',
     name: 'Token A',
     decimals: '18',
   });
-  const tokenB: TokenTemplate = await hre.run('erc20:deploy', {
+  const tokenB: TokenTemplate = await hre.run(DEPLOY_ERC20, {
     symbol: 'BBB',
     name: 'Token B',
     decimals: '18',
   });
 
-  await hre.run('uniswap:create-pool', {
+  await hre.run(CREATE_UNISWAP_POOL, {
     contract: uniswapV3.nonfungiblePositionManager.address,
     token0: tokenA.address,
     token1: tokenB.address,
@@ -28,7 +35,7 @@ async function main() {
     amount1: (100).toString(),
   });
 
-  await hre.run('uniswap:add-liquidity', {
+  await hre.run(ADD_UNISWAP_POOL_LIQUIDITY, {
     contract: uniswapV3.nonfungiblePositionManager.address,
     token0: tokenA.address,
     token1: tokenB.address,

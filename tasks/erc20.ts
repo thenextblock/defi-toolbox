@@ -1,7 +1,8 @@
 import { task } from 'hardhat/config';
 import { TokenTemplate__factory } from '../types';
+import { DEPLOY_ERC20 } from './index';
 
-task('erc20:deploy', 'Creates ERC20 Token')
+task(DEPLOY_ERC20, 'Creates ERC20 Token')
   .addParam('name', 'token name')
   .addParam('symbol', 'token symbol')
   .addParam('decimals', 'decimals')
