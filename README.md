@@ -3,7 +3,7 @@
 Deployment and interaction tasks for various Defi platforms like Uniswap V3, Compound V2, Aave, UMA, Balancer, Synthetix and many other well known protocols.
 
 
-## Avaialble Tasks
+## Tasks
 To see avaialble tasks run `npx hardhat`.
 
 ### ERC20 token
