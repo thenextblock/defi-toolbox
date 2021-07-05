@@ -1,5 +1,5 @@
 import { task } from 'hardhat/config';
-import '@nomiclabs/hardhat-ethers/internal/type-extensions';
+import { UniswapV3Deployment } from '../lib/uniswap-v3-deployment';
 import {
   NonfungiblePositionManager__factory,
   TokenTemplate__factory,
@@ -12,6 +12,16 @@ import {
   TICK_SPACINGS,
   TickMath,
 } from '@uniswap/v3-sdk';
+
+task('uniswap:deploy', 'Deploy Uniswap V3 contracts')
+  .addOptionalParam('weth', 'WETH9 contract address')
+  .setAction(async (taskArgs, hre) => {
+    const deployer = (await hre.ethers.getSigners())[0];
+    const weth = taskArgs.weth || (await hre.run('weth:deploy')).address;
+    const uniswap = new UniswapV3Deployment(hre, deployer, weth);
+    await uniswap.deployAll();
+    return uniswap;
+  });
 
 task('uniswap:create-pool', 'Create Uniswap V3 pool')
   .addParam('contract', 'NonfungiblePositionManager address')

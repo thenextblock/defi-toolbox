@@ -4,11 +4,10 @@ import '@tenderly/hardhat-tenderly';
 import 'hardhat-tracer';
 import dotenv from 'dotenv';
 import './tasks/accounts';
-import './tasks/weth-deploy';
-import './tasks/uniswap-deploy';
-import './tasks/uniswap-create-pool';
-import './tasks/erc20-deploy';
-import './tasks/compoundV2';
+import './tasks/weth';
+import './tasks/uniswap-v3';
+import './tasks/erc20';
+import './tasks/compound-v2';
 
 dotenv.config();
 const JSON_RPC_URL = process.env.JSON_RPC_URL;
