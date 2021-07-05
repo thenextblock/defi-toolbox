@@ -12,13 +12,18 @@ import {
   TICK_SPACINGS,
   TickMath,
 } from '@uniswap/v3-sdk';
-import { ADD_UNISWAP_POOL_LIQUIDITY, CREATE_UNISWAP_POOL, DEPLOY_UNISWAP } from './index';
+import {
+  ADD_UNISWAP_POOL_LIQUIDITY,
+  CREATE_UNISWAP_POOL,
+  DEPLOY_UNISWAP,
+  DEPLOY_WETH,
+} from './index';
 
 task(DEPLOY_UNISWAP, 'Deploy Uniswap V3 contracts')
   .addOptionalParam('weth', 'WETH9 contract address')
   .setAction(async (taskArgs, hre) => {
     const deployer = (await hre.ethers.getSigners())[0];
-    const weth = taskArgs.weth || (await hre.run('weth:deploy')).address;
+    const weth = taskArgs.weth || (await hre.run(DEPLOY_WETH)).address;
     const uniswap = new UniswapV3Deployment(hre, deployer, weth);
     await uniswap.deployAll();
     return uniswap;
