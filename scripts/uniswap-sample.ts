@@ -7,9 +7,12 @@ import {
   DEPLOY_ERC20,
   DEPLOY_UNISWAP,
   DEPLOY_WETH,
+  GET_ACCOUNTS,
 } from '../tasks';
 
 async function main() {
+  const [deployer] = await hre.run(GET_ACCOUNTS);
+
   const weth: WETH9 = await hre.run(DEPLOY_WETH);
 
   const uniswapV3: UniswapV3Deployment = await hre.run(DEPLOY_UNISWAP, {
@@ -27,22 +30,25 @@ async function main() {
     decimals: '18',
   });
 
+  await tokenA.mint(deployer.address, '50000000000000000000000000');
+  await tokenB.mint(deployer.address, '30000000000000000000000000');
+
   await hre.run(CREATE_UNISWAP_POOL, {
     contract: uniswapV3.nonfungiblePositionManager.address,
     token0: tokenA.address,
     token1: tokenB.address,
-    amount0: (500).toString(),
-    amount1: (100).toString(),
+    amount0: '10000000000000000000000',
+    amount1: '200000000000000000000',
   });
 
   await hre.run(ADD_UNISWAP_POOL_LIQUIDITY, {
     contract: uniswapV3.nonfungiblePositionManager.address,
     token0: tokenA.address,
     token1: tokenB.address,
-    amount0: (500).toString(),
-    amount1: (100).toString(),
-    amount0min: (490).toString(),
-    amount1min: (60).toString(),
+    amount0: '10000000000000000000000',
+    amount1: '200000000000000000000',
+    amount0min: '9000000000000000000000',
+    amount1min: '180000000000000000000',
     deadline: '5',
   });
 }
