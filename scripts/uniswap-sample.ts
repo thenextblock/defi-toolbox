@@ -37,18 +37,18 @@ async function main() {
     contract: uniswapV3.nonfungiblePositionManager.address,
     token0: tokenA.address,
     token1: tokenB.address,
-    amount0: BigInt(1e22),
-    amount1: BigInt(2e20),
+    amount0: BigInt(1e22).toString(),
+    amount1: BigInt(2e20).toString(),
   });
 
   await hre.run(ADD_UNISWAP_POOL_LIQUIDITY, {
     contract: uniswapV3.nonfungiblePositionManager.address,
     token0: tokenA.address,
     token1: tokenB.address,
-    amount0: BigInt(1e22),
-    amount1: BigInt(2e20),
-    amount0min: BigInt(9.9e21),
-    amount1min: BigInt(1.8e20),
+    amount0: BigInt(1e22).toString(),
+    amount1: BigInt(2e20).toString(),
+    amount0min: BigInt(9.9e21).toString(),
+    amount1min: BigInt(1.8e20).toString(),
     deadline: '5',
   });
 }
