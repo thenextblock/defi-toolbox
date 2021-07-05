@@ -1,12 +1,9 @@
-
-
-
 # Defi Starter Kit – Defi (lego) builders Toolbox
 
 Deployment and interaction tasks for various Defi platforms like Uniswap V3, Compound V2, Aave, UMA, Balancer, Synthetix and many other well known protocols.
 
 
-## Tasks
+## Avaialble Tasks
 To see avaialble tasks run `npx hardhat`.
 
 ### ERC20 token
@@ -51,7 +48,7 @@ npx hardhat defi:uniswap:create-pool \
     --token1 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512 \
     --fee 500 \
     --amount0 1000000000 \
-    --amount1 1000000000 \
+    --amount1 1000000000
 ```
 
 **`defi:uniswap:add-liquidity`** – _Add liquidity to the pool_
@@ -65,11 +62,11 @@ npx hardhat defi:uniswap:add-liquidity \
     --amount1 1000000000 \
     --amount0min 990000000 \
     --amount1min 990000000 \
-    --deadline 20 \
+    --deadline 20
 ```
 
 
-The great thing about a Hardhat task is that you can use it the script as well (see [scripts/uniswap-sample.ts](./scripts/uniswap-sample.ts)):
+A Hardhat task can be used in the script as well (see [scripts/uniswap-sample.ts](./scripts/uniswap-sample.ts)):
 ```typescript
 ...
 const weth: WETH9 = await hre.run(DEPLOY_WETH);
