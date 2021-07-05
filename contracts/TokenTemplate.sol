@@ -6,8 +6,9 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract TokenTemplate is ERC20, Ownable {
 
-    constructor(string memory name_, string memory symbol_) public ERC20(name_, symbol_)  {
-        mint(msg.sender, 1*10**18);
+    constructor(string memory name_, string memory symbol_, uint8 _decimals) public ERC20(name_, symbol_)  {
+        _setupDecimals(_decimals);
+        // mint(msg.sender, 1*10**18);
     }
     
     function mint(address _to, uint256 _amount) onlyOwner public {

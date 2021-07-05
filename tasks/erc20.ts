@@ -14,7 +14,11 @@ task(DEPLOY_ERC20, 'Creates ERC20 Token')
     // `);
     const deployer = (await hre.ethers.getSigners())[0];
     const TokenTemplateFactory = new TokenTemplate__factory(deployer);
-    const token = await TokenTemplateFactory.deploy(taskArgs.name, taskArgs.symbol);
+    const token = await TokenTemplateFactory.deploy(
+      taskArgs.name,
+      taskArgs.symbol,
+      taskArgs.decimals
+    );
     await token.setDecimals(taskArgs.decimals);
 
     console.log(
