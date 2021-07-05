@@ -61,7 +61,7 @@ task('compound:deploy-ctokens', 'Deploy cTokens')
 
     const comptroller = ComptrollerG6__factory.connect(args.comptroller, deployer);
     const whitePaperInterestRateModel = WhitePaperInterestRateModel__factory.connect(
-      args.comptroller,
+      args.wpirm,
       deployer
     );
 
