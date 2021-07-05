@@ -48,37 +48,34 @@ task(DEPLOY_COMPUND_CORE, 'Deploy Compund V2 contracts').setAction(async (args, 
 
 task(DEPLOY_COMPUND_CTOKENS, 'Deploy cTokens')
   .addParam('comptroller', 'Comptroller address')
-  .addParam('wpirm', 'WhitePaperInterestRateModel address')
+  .addParam('underlying', 'Underlying Token Adddress')
+  .addParam('name', 'cToken Name')
+  .addParam('symbol', 'cToken Symbol')
+  .addParam('interestratemodel', 'WhitePaperInterestRateModel address')
   .setAction(async (args, hre) => {
     const [deployer] = await hre.ethers.getSigners();
 
-    const timelock = await new Timelock__factory(deployer).deploy(deployer.address, 0);
-
-    const usdc: TokenTemplate = await hre.run('erc20:deploy', {
-      name: 'usdc',
-      symbol: 'usdc',
-      decimals: '6',
-    });
-
     const comptroller = ComptrollerG6__factory.connect(args.comptroller, deployer);
     const whitePaperInterestRateModel = WhitePaperInterestRateModel__factory.connect(
-      args.wpirm,
+      args.interestratemodel,
       deployer
     );
 
-    const _initialExchangeRateMantissa = '1000000000000000000';
-    const cUSDC = await new CErc20__factory(deployer).deploy();
-    await cUSDC['initialize(address,address,address,uint256,string,string,uint8)'](
-      usdc.address,
+    const _initialExchangeRateMantissa = '1000000000000000000'; // TODO: Move to Args
+    const cToken = await new CErc20__factory(deployer).deploy();
+
+    await cToken['initialize(address,address,address,uint256,string,string,uint8)'](
+      args.underlying,
       comptroller.address,
       whitePaperInterestRateModel.address,
       _initialExchangeRateMantissa,
-      'Compound USDC Token',
-      'cUSDC',
+      args.name,
+      args.symbol,
       8
     );
-    console.log(`cUSDC: ${cUSDC.address}`);
+    console.log(`cToken deployed: ${cToken.address}`);
 
+    //TODO cEth also shoudl be moved separately
     const cEtherFactory = new CEther__factory(deployer);
     const cEth = await cEtherFactory.deploy(
       comptroller.address,
@@ -89,12 +86,10 @@ task(DEPLOY_COMPUND_CTOKENS, 'Deploy cTokens')
       '18',
       deployer.address
     );
-    console.log(`cEth: ${cEth.address}`);
+    console.log(`cEth deployed: ${cEth.address}`);
 
     return {
-      timelock,
-      usdc,
-      cUsdc: cUSDC,
+      cToken,
       cEth,
     };
   });
