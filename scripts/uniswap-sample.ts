@@ -7,8 +7,9 @@ import {
   DEPLOY_ERC20,
   DEPLOY_UNISWAP,
   DEPLOY_WETH,
-  GET_ACCOUNTS,
+  GET_ACCOUNTS, SWAP_TOKENS_ON_UNISWAP,
 } from '../tasks';
+import { FeeAmount } from '@uniswap/v3-sdk';
 
 async function main() {
   const [deployer] = await hre.run(GET_ACCOUNTS);
@@ -33,7 +34,7 @@ async function main() {
   await tokenA.mint(deployer.address, BigInt(5e25));
   await tokenB.mint(deployer.address, BigInt(3e24));
 
-  await hre.run(CREATE_UNISWAP_POOL, {
+  const poolAddress = await hre.run(CREATE_UNISWAP_POOL, {
     contract: uniswapV3.nonfungiblePositionManager.address,
     token0: tokenA.address,
     token1: tokenB.address,
@@ -50,6 +51,15 @@ async function main() {
     amount0min: BigInt(9.9e21).toString(),
     amount1min: BigInt(1.8e20).toString(),
     deadline: '5',
+  });
+
+  await hre.run(SWAP_TOKENS_ON_UNISWAP, {
+    contract: uniswapV3.swapRouter!.address,
+    token0: tokenA.address,
+    token1: tokenB.address,
+    fee: FeeAmount.MEDIUM.toString(),
+    amount: BigInt(5e20).toString(),
+    poolAddress: poolAddress,
   });
 }
 

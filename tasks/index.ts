@@ -14,3 +14,4 @@ export const DEPLOY_COMPUND_CTOKENS = 'defi:compound:deploy-ctokens';
 export const DEPLOY_UNISWAP = 'defi:uniswap:deploy';
 export const CREATE_UNISWAP_POOL = 'defi:uniswap:create-pool';
 export const ADD_UNISWAP_POOL_LIQUIDITY = 'defi:uniswap:add-liquidity';
+export const SWAP_TOKENS_ON_UNISWAP = 'defi:uniswap:swap-tokens';

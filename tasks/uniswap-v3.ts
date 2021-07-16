@@ -1,23 +1,33 @@
 import { task } from 'hardhat/config';
 import { UniswapV3Deployment } from '../lib/uniswap-v3-deployment';
 import {
+  IERC20Metadata__factory,
   NonfungiblePositionManager__factory,
+  SwapRouter__factory,
   TokenTemplate__factory,
   UniswapV3Factory__factory,
+  UniswapV3Pool__factory,
 } from '../types';
 import {
   encodeSqrtRatioX96,
   FeeAmount,
   nearestUsableTick,
+  Pool,
+  Route,
+  SwapRouter,
   TICK_SPACINGS,
   TickMath,
+  Trade,
 } from '@uniswap/v3-sdk';
 import {
   ADD_UNISWAP_POOL_LIQUIDITY,
   CREATE_UNISWAP_POOL,
   DEPLOY_UNISWAP,
   DEPLOY_WETH,
+  GET_ACCOUNTS,
+  SWAP_TOKENS_ON_UNISWAP,
 } from './index';
+import { CurrencyAmount, Percent, Token, TradeType } from '@uniswap/sdk-core';
 
 task(DEPLOY_UNISWAP, 'Deploy Uniswap V3 contracts')
   .addOptionalParam('weth', 'WETH9 contract address')
@@ -66,8 +76,8 @@ task(CREATE_UNISWAP_POOL, 'Create Uniswap V3 pool')
 
 task(ADD_UNISWAP_POOL_LIQUIDITY, 'Add liquidity to a pool')
   .addParam('contract', 'NonfungiblePositionManager address')
-  .addParam('token0', 'ERC2-20 token address')
-  .addParam('token1', 'ERC2-20 token address')
+  .addParam('token0', 'ERC-20 token address')
+  .addParam('token1', 'ERC-20 token address')
   .addOptionalParam('fee', '(500|3000|10000)', FeeAmount.MEDIUM.toString())
   .addParam('amount0')
   .addParam('amount1')
@@ -107,4 +117,67 @@ task(ADD_UNISWAP_POOL_LIQUIDITY, 'Add liquidity to a pool')
     };
     console.log('params:', mintParams);
     return await nfpManager.mint(mintParams);
+  });
+
+task(SWAP_TOKENS_ON_UNISWAP, 'Swap')
+  .addOptionalParam('account', 'Account to use [0..19]. Deafult is 0', '0')
+  .addOptionalParam('poolAddress', '[Deprecated]', '0x0')
+  .addParam('contract', 'SwapRouter address')
+  .addParam('token0', 'ERC-20 token address')
+  .addParam('token1', 'ERC-20 token address')
+  .addParam('fee', '(500|3000|10000)')
+  .addOptionalParam('slippage', '0.1% by default', '0.1')
+  .addParam('amount', 'amount In')
+  .addOptionalParam('deadline', 'Minutes. 1 min by default', '1')
+  .setAction(async (args, hre) => {
+    const accounts = await hre.run(GET_ACCOUNTS);
+    const account = accounts[parseInt(args.account, 10)];
+    const swapRouter = SwapRouter__factory.connect(args.contract, account);
+    const token0 = IERC20Metadata__factory.connect(args.token0, account);
+    const token1 = IERC20Metadata__factory.connect(args.token1, account);
+    const tokenA = new Token(hre.network.config.chainId!, token0.address, await token0.decimals());
+    const tokenB = new Token(hre.network.config.chainId!, token1.address, await token1.decimals());
+    const fee = FeeAmount.MEDIUM;
+    const amount = args.amount;
+    const slippage = new Percent(1, 1000);
+    const deadline = Math.ceil(Date.now() / 1000) + 60 * parseInt(args.deadline, 10);
+    const poolAddress =
+      args.poolAddress === '0x0'
+        ? Pool.getAddress(tokenA, tokenB, parseInt(args.fee, 10))
+        : args.poolAddress;
+    const pool = UniswapV3Pool__factory.connect(poolAddress, account);
+    const slot0 = await pool.slot0();
+    const { liquidityNet, liquidityGross } = await pool.ticks(slot0.tick);
+    let poolAB = new Pool(
+      tokenA,
+      tokenB,
+      fee,
+      slot0.sqrtPriceX96.toString(),
+      (await pool.liquidity()).toString(),
+      slot0.tick,
+      [
+        {
+          index: nearestUsableTick(slot0.tick, TICK_SPACINGS[fee]),
+          liquidityNet: liquidityNet.toString(),
+          liquidityGross: liquidityGross.toString(),
+        },
+      ]
+    );
+    const route = new Route([poolAB], tokenA, tokenB);
+    const trade = await Trade.fromRoute(
+      route,
+      CurrencyAmount.fromRawAmount(tokenA, amount),
+      TradeType.EXACT_INPUT
+    );
+    await token0.approve(swapRouter.address, amount);
+    const { calldata } = SwapRouter.swapCallParameters(trade, {
+      slippageTolerance: slippage,
+      recipient: account.address,
+      deadline: deadline,
+    });
+    await account.sendTransaction({
+      from: account.address,
+      to: swapRouter.address,
+      data: calldata,
+    });
   });
