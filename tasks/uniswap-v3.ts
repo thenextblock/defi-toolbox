@@ -130,14 +130,14 @@ task(SWAP_TOKENS_ON_UNISWAP, 'Swap')
   .addParam('amount', 'amount In')
   .addOptionalParam('deadline', 'Minutes. 1 min by default', '1')
   .setAction(async (args, hre) => {
-    const accounts = await hre.run(GET_ACCOUNTS);
+    const accounts = await hre.run(GET_ACCOUNTS, { print: '0' });
     const account = accounts[parseInt(args.account, 10)];
     const swapRouter = SwapRouter__factory.connect(args.contract, account);
     const token0 = IERC20Metadata__factory.connect(args.token0, account);
     const token1 = IERC20Metadata__factory.connect(args.token1, account);
     const tokenA = new Token(hre.network.config.chainId!, token0.address, await token0.decimals());
     const tokenB = new Token(hre.network.config.chainId!, token1.address, await token1.decimals());
-    const fee = FeeAmount.MEDIUM;
+    const fee: FeeAmount = feeNumberToFeeAmount(parseFloat(args.fee));
     const amount = args.amount;
     const slippage = new Percent(1, 1000);
     const deadline = Math.ceil(Date.now() / 1000) + 60 * parseInt(args.deadline, 10);
@@ -180,4 +180,10 @@ task(SWAP_TOKENS_ON_UNISWAP, 'Swap')
       to: swapRouter.address,
       data: calldata,
     });
+
+    function feeNumberToFeeAmount(fee: number): FeeAmount {
+      if (fee === FeeAmount.LOW) return FeeAmount.LOW;
+      if (fee === FeeAmount.MEDIUM) return FeeAmount.MEDIUM;
+      return FeeAmount.HIGH;
+    }
   });
