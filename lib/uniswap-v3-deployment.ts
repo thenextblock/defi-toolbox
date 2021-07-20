@@ -3,11 +3,9 @@ import { Signer } from 'ethers';
 import {
   NFTDescriptor__factory,
   NonfungiblePositionManager__factory,
-  ProxyAdmin__factory,
   Quoter,
   Quoter__factory,
   SwapRouter__factory,
-  ProxyAdmin,
   TickLens__factory,
   UniswapV3Factory,
   UniswapV3Factory__factory,
@@ -23,7 +21,6 @@ export class UniswapV3Deployment {
   public readonly deployer: Signer;
   public readonly weth: string;
   public uniswapV3Factory?: UniswapV3Factory;
-  public proxyAdmin?: ProxyAdmin;
   public tikLens?: TickLens;
   public quoter?: Quoter;
   public swapRouter?: SwapRouter;
@@ -41,12 +38,6 @@ export class UniswapV3Deployment {
     const UniswapFactory = new UniswapV3Factory__factory(this.deployer);
     this.uniswapV3Factory = await UniswapFactory.deploy();
     return this.uniswapV3Factory;
-  }
-
-  async deployProxyAdmin() {
-    const contract = new ProxyAdmin__factory(this.deployer);
-    this.proxyAdmin = await contract.deploy();
-    return this.proxyAdmin;
   }
 
   async deployTikLens() {
@@ -119,9 +110,6 @@ export class UniswapV3Deployment {
   async deployAll() {
     const factory = await this.deployUniswapV3Factory();
     console.log(`UniswapV3Factory: ${factory.address}`);
-
-    const proxyAdmin = await this.deployProxyAdmin();
-    console.log(`ProxyAdmin: ${proxyAdmin.address}`);
 
     const tikLens = await this.deployTikLens();
     console.log(`TikLens: ${tikLens.address}`);
