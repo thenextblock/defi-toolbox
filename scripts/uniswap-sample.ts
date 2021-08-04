@@ -7,7 +7,8 @@ import {
   DEPLOY_ERC20,
   DEPLOY_UNISWAP,
   DEPLOY_WETH,
-  GET_ACCOUNTS, SWAP_TOKENS_ON_UNISWAP,
+  GET_ACCOUNTS,
+  SWAP_TOKENS_ON_UNISWAP,
 } from '../tasks';
 import { FeeAmount } from '@uniswap/v3-sdk';
 

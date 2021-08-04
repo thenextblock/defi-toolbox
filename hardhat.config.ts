@@ -44,6 +44,10 @@ module.exports = {
   typechain: {
     outDir: 'types',
     target: 'ethers-v5',
+    externalArtifacts: [
+      './node_modules/@uniswap/v3-core/artifacts/**/*.json',
+      './node_modules/@uniswap/v3-periphery/artifacts/**/*.json',
+    ]
   },
   mocha: {
     timeout: 600000,

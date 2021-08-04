@@ -14,6 +14,7 @@ import {
   NonfungibleTokenPositionDescriptor,
   SwapRouter,
   NonfungiblePositionManager,
+  NonfungibleTokenPositionDescriptor__factory,
 } from '../types';
 
 export class UniswapV3Deployment {
@@ -77,17 +78,14 @@ export class UniswapV3Deployment {
     if (!this.nftDescriptor) {
       throw 'NFTDescriptor is not deployed.';
     }
-    const contract = await this.hre.ethers.getContractFactory(
-      'NonfungibleTokenPositionDescriptor',
+
+    const contract = await new NonfungibleTokenPositionDescriptor__factory(
       {
-        libraries: {
-          NFTDescriptor: this.nftDescriptor.address,
-        },
-      }
+        'contracts/libraries/NFTDescriptor.sol:NFTDescriptor': this.nftDescriptor.address,
+      },
+      this.deployer
     );
-    this.nonfungibleTokenPositionDescriptor = (await contract.deploy(
-      this.weth
-    )) as NonfungibleTokenPositionDescriptor;
+    this.nonfungibleTokenPositionDescriptor = await contract.deploy(this.weth);
     return this.nonfungibleTokenPositionDescriptor;
   }
 
