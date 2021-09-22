@@ -1,8 +1,10 @@
 {
   "name": "@thenextblock/hardhat-erc20-plugin",
-  "version": "0.0.1",
-  "description": "",
-  "repository": "git@github.com:thenextblock/DefiToolbox.git",
+  "version": "0.0.4",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/thenextblock/DefiToolbox.git"
+  },
   "author": "thenextblock",
   "license": "MIT",
   "main": "dist/src/index.js",
@@ -27,7 +29,7 @@
     "*.d.ts.map",
     "*.js",
     "*.js,map",
-    "LICENSE",  
+    "LICENSE",
     "README.md"
   ],
   "devDependencies": {
@@ -55,5 +57,13 @@
   },
   "peerDependencies": {
     "hardhat": "^2.6.0"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/thenextblock/DefiToolbox/issues"
+  },
+  "homepage": "https://github.com/thenextblock/DefiToolbox#readme",
+  "directories": {
+    "test": "test"
+  },
+  "description": ""
 }

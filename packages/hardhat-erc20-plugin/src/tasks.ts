@@ -11,7 +11,12 @@ task(ERC20_DEPLOY, 'Creates ERC20 Token')
   .addParam('decimals', 'decimals')
   .setAction(async (args, hre) => {
     const [deployer] = await hre.ethers.getSigners();
-    return Erc20Token.deploy(new Erc20Token(args.name, args.symbol, args.decimals), deployer);
+    const token = await Erc20Token.deploy(
+      new Erc20Token(args.name, args.symbol, args.decimals),
+      deployer
+    );
+    console.log(`Address: ${token.address} Symbol: ${token.symbol} Name: ${token.name} `);
+    return token;
   });
 
 task(ERC20_MINT, 'Mint ERC20 tokens to address')
