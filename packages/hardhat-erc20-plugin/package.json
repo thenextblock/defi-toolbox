@@ -23,6 +23,7 @@
     "watch": "tsc -w"
   },
   "files": [
+    "artifacts/contracts/**/*.json",
     "dist/src/",
     "src/",
     "*.d.ts",
