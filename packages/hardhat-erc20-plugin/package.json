@@ -1,6 +1,6 @@
 {
   "name": "@thenextblock/hardhat-erc20-plugin",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/thenextblock/DefiToolbox.git"
@@ -23,9 +23,8 @@
     "watch": "tsc -w"
   },
   "files": [
-    "artifacts/contracts/**/*.json",
     "dist/src/",
-    "src/",
+    "dist/artifacts/",
     "*.d.ts",
     "*.d.ts.map",
     "*.js",
