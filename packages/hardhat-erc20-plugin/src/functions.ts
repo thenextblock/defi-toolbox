@@ -2,7 +2,7 @@ import { Signer } from 'ethers';
 
 import { Erc20Token, Erc20Token__factory } from '../typechain';
 
-export async function deployErc20Template(
+export async function deployErc20Token(
   args: { name: string; symbol: string; decimals: number },
   deployer: Signer
 ): Promise<Erc20Token> {

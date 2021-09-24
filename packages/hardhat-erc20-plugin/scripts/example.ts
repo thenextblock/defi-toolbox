@@ -1,10 +1,10 @@
 import hre from 'hardhat';
 
-import { deployErc20Template } from '../src';
+import { deployErc20Token } from '../src';
 
 async function main() {
   const [deployer] = await hre.ethers.getSigners();
-  const token = await deployErc20Template(
+  const token = await deployErc20Token(
     {
       name: 'ABC',
       symbol: 'ABC',

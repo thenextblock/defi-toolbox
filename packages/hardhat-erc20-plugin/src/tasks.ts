@@ -2,7 +2,7 @@ import { task } from 'hardhat/config';
 
 import { Erc20Token__factory } from '../typechain';
 
-import { deployErc20Template } from './functions';
+import { deployErc20Token } from './functions';
 
 export const ERC20_DEPLOY = 'erc20:deploy';
 export const ERC20_MINT = 'erc20:mint';
@@ -13,7 +13,7 @@ task(ERC20_DEPLOY, 'Deploy ERC20 token')
   .addParam('decimals', 'decimals')
   .setAction(async (args, hre) => {
     const [deployer] = await hre.ethers.getSigners();
-    const token = await deployErc20Template(args, deployer);
+    const token = await deployErc20Token(args, deployer);
     console.log(`Address: ${token.address} Symbol: ${token.symbol} Name: ${token.name} `);
     return token;
   });
