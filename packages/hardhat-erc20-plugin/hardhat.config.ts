@@ -1,8 +1,9 @@
 import '@nomiclabs/hardhat-ethers';
+import '@typechain/hardhat';
 
 module.exports = {
   typechain: {
-    outDir: 'types',
+    outDir: 'typechain',
     target: 'ethers-v5',
   },
   mocha: {
