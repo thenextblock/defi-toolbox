@@ -1,15 +1,16 @@
 import hre from 'hardhat';
 import { GET_ACCOUNTS } from '../tasks';
 import { FeeAmount } from '@uniswap/v3-sdk';
+
 import { Weth, WETH_DEPLOY } from '@thenextblock/hardhat-weth-plugin';
-import { Erc20Token, ERC20_DEPLOY } from '@thenextblock/hardhat-erc20-plugin';
 import {
   ADD_UNISWAP_POOL_LIQUIDITY,
   CREATE_UNISWAP_POOL,
   DEPLOY_UNISWAP,
   SWAP_TOKENS_ON_UNISWAP,
   UniswapV3Deployment,
-} from '@thenextblock/hardhat-uniswap-plugin';
+} from '@thenextblock/hardhat-uniswap-plugin/src';
+import { deployErc20Token, Erc20Token } from '@thenextblock/hardhat-erc20-plugin';
 
 async function main() {
   const [deployer] = await hre.run(GET_ACCOUNTS);
@@ -20,16 +21,22 @@ async function main() {
     weth: weth.contract.address,
   });
 
-  const tokenA: Erc20Token = await hre.run(ERC20_DEPLOY, {
-    symbol: 'AAA',
-    name: 'Token A',
-    decimals: '18',
-  });
-  const tokenB: Erc20Token = await hre.run(ERC20_DEPLOY, {
-    symbol: 'BBB',
-    name: 'Token B',
-    decimals: '18',
-  });
+  const tokenA: Erc20Token = await deployErc20Token(
+    {
+      symbol: 'AAA',
+      name: 'Token A',
+      decimals: 18,
+    },
+    deployer
+  );
+  const tokenB = await deployErc20Token(
+    {
+      symbol: 'BBB',
+      name: 'Token B',
+      decimals: 18,
+    },
+    deployer
+  );
 
   await tokenA.mint(deployer.address, BigInt(5e25));
   await tokenB.mint(deployer.address, BigInt(3e24));
