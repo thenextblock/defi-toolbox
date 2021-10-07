@@ -1,6 +1,7 @@
 {
-  "name": "@thenextblock/hardhat-erc20-plugin",
-  "version": "0.0.7",
+  "name": "@thenextblock/hardhat-erc20",
+  "description": "ERC-20 token deployment plugin",
+  "version": "0.0.2",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/thenextblock/DefiToolbox.git"
@@ -64,10 +65,9 @@
   "bugs": {
     "url": "https://github.com/thenextblock/DefiToolbox/issues"
   },
-  "homepage": "https://github.com/thenextblock/DefiToolbox#readme",
+  "homepage": "https://github.com/thenextblock/DefiToolbox/tree/monorepo/packages/hardhat-erc20-plugin#readme",
   "directories": {
     "test": "test",
     "example": "scripts"
-  },
-  "description": ""
+  }
 }
