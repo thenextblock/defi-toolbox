@@ -16,7 +16,7 @@ import {
   TickLens__factory,
   UniswapV3Factory,
   UniswapV3Factory__factory,
-} from '../types';
+} from '../typechain';
 
 export class UniswapV3Deployment {
   public declare readonly deployer: Signer;

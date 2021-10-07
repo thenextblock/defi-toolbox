@@ -36,7 +36,8 @@
   },
   "dependencies": {
     "@thenextblock/hardhat-uniswap-plugin": "^0.0.1",
-    "@thenextblock/hardhat-erc20-plugin": "^0.0.7",
-    "@thenextblock/hardhat-weth-plugin": "^0.0.1"
+    "@thenextblock/hardhat-erc20": "^0.0.2",
+    "@thenextblock/hardhat-weth-plugin": "^0.0.1",
+    "@thenextblock/hardhat-compound": "^0.0.6"
   }
 }

@@ -10,7 +10,7 @@ import {
   SWAP_TOKENS_ON_UNISWAP,
   UniswapV3Deployment,
 } from '@thenextblock/hardhat-uniswap-plugin/src';
-import { deployErc20Token, Erc20Token } from '@thenextblock/hardhat-erc20-plugin';
+import { deployErc20Token, Erc20Token } from '@thenextblock/hardhat-erc20';
 
 async function main() {
   const [deployer] = await hre.run(GET_ACCOUNTS);

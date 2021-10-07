@@ -1,6 +1,6 @@
 import '@thenextblock/hardhat-uniswap-plugin';
-import '@thenextblock/hardhat-compound-plugin';
-import '@thenextblock/hardhat-erc20-plugin';
+import '@thenextblock/hardhat-compound';
+import '@thenextblock/hardhat-erc20';
 import '@thenextblock/hardhat-weth-plugin';
 import '@nomiclabs/hardhat-ethers';
 import '@typechain/hardhat';

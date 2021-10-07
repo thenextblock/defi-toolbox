@@ -1,5 +1,5 @@
 import '@nomiclabs/hardhat-ethers';
-import { Erc20Token } from '@thenextblock/hardhat-erc20-plugin';
+import { Erc20Token__factory } from '@thenextblock/hardhat-erc20/dist/typechain';
 import { CurrencyAmount, Percent, Token, TradeType } from '@uniswap/sdk-core';
 import {
   encodeSqrtRatioX96,
@@ -20,7 +20,7 @@ import {
   SwapRouter__factory,
   UniswapV3Factory__factory,
   UniswapV3Pool__factory,
-} from '../types';
+} from '../typechain';
 
 import { UniswapV3Deployment } from './uniswap-v3-deployment';
 
@@ -54,8 +54,8 @@ task(CREATE_UNISWAP_POOL, 'Create Uniswap V3 pool')
     const nfpManager = await NonfungiblePositionManager__factory.connect(args.contract, deployer);
 
     console.log(nfpManager.address);
-    const token0 = await Erc20Token.connect(args.token0, deployer);
-    const token1 = await Erc20Token.connect(args.token1, deployer);
+    const token0 = await Erc20Token__factory.connect(args.token0, deployer);
+    const token1 = await Erc20Token__factory.connect(args.token1, deployer);
     const symbol0 = token0.symbol;
     const symbol1 = token1.symbol;
 
@@ -94,8 +94,8 @@ task(ADD_UNISWAP_POOL_LIQUIDITY, 'Add liquidity to a pool')
     const [deployer] = await hre.ethers.getSigners();
     const nfpManager = await NonfungiblePositionManager__factory.connect(args.contract, deployer);
     console.log(`uniswap:add-liquidity > nfpManager: ${nfpManager.address}`);
-    const token0 = await Erc20Token.connect(args.token0, deployer);
-    const token1 = await Erc20Token.connect(args.token1, deployer);
+    const token0 = await Erc20Token__factory.connect(args.token0, deployer);
+    const token1 = await Erc20Token__factory.connect(args.token1, deployer);
 
     console.log('Approve spender to transfer money');
     await token0.approve(nfpManager.address, args.amount0);

@@ -3,7 +3,6 @@ import '@typechain/hardhat';
 
 module.exports = {
   typechain: {
-    outDir: 'types',
     target: 'ethers-v5',
     externalArtifacts: [
       '../../node_modules/@uniswap/v3-core/artifacts/**/*.json',
