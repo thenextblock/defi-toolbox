@@ -1,6 +1,6 @@
 {
   "name": "@thenextblock/hardhat-erc20",
-  "description": "ERC-20 token deployment plugin",
+  "description": "ERC-20 token deployment plugin for Hardhat",
   "version": "0.0.4",
   "repository": {
     "type": "git",
@@ -25,6 +25,7 @@
   },
   "files": [
     "dist/src/",
+    "dist/contratcs/",
     "dist/typechain",
     "dist/artifacts/contracts/Erc20.sol/Erc20.json",
     "*.d.ts",
