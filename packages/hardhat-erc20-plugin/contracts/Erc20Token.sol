@@ -16,8 +16,4 @@ contract Erc20Token is ERC20, Ownable {
     function mint(address to, uint256 amount) onlyOwner public {
         _mint(to, amount);
     }
-
-    function setDecimals(uint8 decimals) onlyOwner public  {
-        _setupDecimals(decimals);
-    }
 }
