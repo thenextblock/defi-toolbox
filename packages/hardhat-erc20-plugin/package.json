@@ -1,7 +1,7 @@
 {
   "name": "@thenextblock/hardhat-erc20",
   "description": "ERC-20 token deployment plugin for Hardhat",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/thenextblock/DefiToolbox.git"
