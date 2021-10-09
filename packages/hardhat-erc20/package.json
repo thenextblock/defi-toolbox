@@ -24,10 +24,11 @@
     "watch": "tsc -w"
   },
   "files": [
-    "dist/src/",
-    "dist/contratcs/",
+    "dist/src",
+    "dist/contracts",
     "dist/typechain",
-    "dist/artifacts/contracts/Erc20.sol/Erc20.json",
+    "dist/artifacts/contracts/Erc20Token.sol/Erc20Token.json",
+    "src",
     "*.d.ts",
     "*.d.ts.map",
     "*.js",
