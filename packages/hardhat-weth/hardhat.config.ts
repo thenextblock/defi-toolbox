@@ -1,4 +1,5 @@
 import '@nomiclabs/hardhat-ethers';
+import '@typechain/hardhat';
 
 module.exports = {
   typechain: {
