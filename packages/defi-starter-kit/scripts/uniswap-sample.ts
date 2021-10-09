@@ -1,7 +1,7 @@
 import hre from 'hardhat';
 import { FeeAmount } from '@uniswap/v3-sdk';
 
-import { deployWeth9 } from '@thenextblock/hardhat-weth';
+import { deployWeth } from '@thenextblock/hardhat-weth';
 import {
   ADD_UNISWAP_POOL_LIQUIDITY,
   CREATE_UNISWAP_POOL,
@@ -14,7 +14,7 @@ import { deployErc20Token } from '@thenextblock/hardhat-erc20';
 async function main() {
   const [deployer] = await hre.ethers.getSigners();
 
-  const weth = await deployWeth9(deployer);
+  const weth = await deployWeth(deployer);
 
   const uniswapV3: UniswapV3Deployment = await hre.run(DEPLOY_UNISWAP, {
     weth: weth.address,

@@ -37,7 +37,7 @@
   "dependencies": {
     "@thenextblock/hardhat-uniswap-v3": "^0.0.1",
     "@thenextblock/hardhat-erc20": "^0.0.5",
-    "@thenextblock/hardhat-weth": "^0.0.2",
+    "@thenextblock/hardhat-weth": "^0.0.3",
     "@thenextblock/hardhat-compound": "^0.0.8"
   }
 }

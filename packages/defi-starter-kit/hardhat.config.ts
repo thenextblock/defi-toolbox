@@ -1,16 +1,14 @@
-import '@thenextblock/hardhat-uniswap-plugin';
+import '@thenextblock/hardhat-uniswap-v3';
 import '@thenextblock/hardhat-compound';
 import '@thenextblock/hardhat-erc20';
-import '@thenextblock/hardhat-weth-plugin';
+import '@thenextblock/hardhat-weth';
 import '@nomiclabs/hardhat-ethers';
 import '@typechain/hardhat';
 import '@tenderly/hardhat-tenderly';
 import 'hardhat-tracer';
 import dotenv from 'dotenv';
-import { initTasks } from './tasks';
 
 dotenv.config();
-initTasks();
 
 const JSON_RPC_URL = process.env.JSON_RPC_URL;
 const DEFAULT_BLOCK_GAS_LIMIT = 12450000;
