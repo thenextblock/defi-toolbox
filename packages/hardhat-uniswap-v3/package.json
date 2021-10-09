@@ -1,7 +1,7 @@
 {
-  "name": "@thenextblock/hardhat-uniswap-plugin",
+  "name": "@thenextblock/hardhat-uniswap-v3",
   "version": "0.0.1",
-  "description": "",
+  "description": "Uniswap V3 protocol deployment plugin for Hardhat",
   "repository": "git@github.com:thenextblock/DefiToolbox.git",
   "author": "thenextblock",
   "license": "MIT",
