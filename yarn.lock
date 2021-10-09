@@ -543,30 +543,21 @@
     fs-extra "^9.0.1"
     js-yaml "^3.14.0"
 
-"@thenextblock/hardhat-compound@^0.0.6":
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/@thenextblock/hardhat-compound/-/hardhat-compound-0.0.6.tgz#7ce84533465df6e3c42bd382efa67c5d52b308d3"
-  integrity sha512-+qZhvOVgHZHch3Ov0h+MxpbvZhtjRW0f/XDKkaeR7cRKFcPQxR6grm/TbinDVnsi+qOr9Cld4zm0MFzyJ6NR7g==
+"@thenextblock/hardhat-compound@^0.0.8":
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/@thenextblock/hardhat-compound/-/hardhat-compound-0.0.8.tgz#5e66ff50c7e2ab13ff24e81ff98580f6c698ac80"
+  integrity sha512-9I2N+pyKqxWuJSAHzMaxPlqb5o5Z2dWYC9pH5K19gg+PzpbjruTe26lo4m2IN+57jZQTFYfDl0YfAwrb3G6OFg==
   dependencies:
     "@nomiclabs/hardhat-ethers" "^2.0.2"
-    "@thenextblock/hardhat-erc20-plugin" "^0.0.8"
-    "@typechain/ethers-v5" "^7.1.2"
-    "@typechain/hardhat" "^2.3.0"
-    ethers "^5.4.7"
-
-"@thenextblock/hardhat-erc20-plugin@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@thenextblock/hardhat-erc20-plugin/-/hardhat-erc20-plugin-0.0.1.tgz#1c5b386a041752313a01949efbfe9d4c9b1df137"
-  integrity sha512-pA8A9Bl55yUv71DH2tukPPeuNbE5JMi+rIiUFC8UeQ9pa6w66QAQ/mr4WH92zkdHabH7icUQmCRWNuG+PHB50g==
-  dependencies:
-    "@nomiclabs/hardhat-ethers" "^2.0.2"
-    "@openzeppelin/contracts" "3.4.1-solc-0.7-2"
+    "@thenextblock/hardhat-erc20" "^0.0.4"
+    "@typechain/ethers-v5" "^7.0.1"
+    "@typechain/hardhat" "^2.2.0"
     ethers "^5.4.1"
 
-"@thenextblock/hardhat-erc20-plugin@^0.0.8":
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/@thenextblock/hardhat-erc20-plugin/-/hardhat-erc20-plugin-0.0.8.tgz#98f881ff00c7276d69433ac04053580bffb24d1f"
-  integrity sha512-pZHjn/cAon4+5cfBNjFk3wqB54ek/8HHleOwUff3Xa/bS/pYYzooU5W+FdbQoGDSnDIHaKZNglrhqflqHdyMjw==
+"@thenextblock/hardhat-erc20@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@thenextblock/hardhat-erc20/-/hardhat-erc20-0.0.4.tgz#2be7aedd56a3b4221e0855ae289c0c7e5040705c"
+  integrity sha512-mXyZmTNbtLg3VQfU73U1CyjTCNplPPdN5duledewQEqQyModp+8LyKe+S7544c2JOTxXUNT6snC9ickSILNbKA==
   dependencies:
     "@nomiclabs/hardhat-ethers" "^2.0.2"
     "@openzeppelin/contracts" "3.4.1-solc-0.7-2"
@@ -605,15 +596,7 @@
     lodash "^4.17.15"
     ts-essentials "^7.0.1"
 
-"@typechain/ethers-v5@^7.1.2":
-  version "7.1.2"
-  resolved "https://registry.yarnpkg.com/@typechain/ethers-v5/-/ethers-v5-7.1.2.tgz#dbf31663f75cc50f2d9ad232f6e354c6a3e81465"
-  integrity sha512-sD4HVkTL5aIJa3Ft+CmqiOapba0zzZ8xa+QywcWH40Rm/dcxvZWwcCMnnI3En0JebkxOcAVfH3do+kQ9rKSxYw==
-  dependencies:
-    lodash "^4.17.15"
-    ts-essentials "^7.0.1"
-
-"@typechain/hardhat@^2.2.0", "@typechain/hardhat@^2.3.0":
+"@typechain/hardhat@^2.2.0":
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/@typechain/hardhat/-/hardhat-2.3.0.tgz#dc7f29281637b38b77c7c046ae82700703395d0f"
   integrity sha512-zERrtNol86L4DX60ktnXxP7Cq8rSZHPaQvsChyiQQVuvVs2FTLm24Yi+MYnfsIdbUBIXZG7SxDWhtCF5I0tJNQ==
@@ -1868,7 +1851,7 @@ ethereumjs-util@^7.0.7, ethereumjs-util@^7.1.0:
     ethjs-util "0.1.6"
     rlp "^2.2.4"
 
-ethers@^5.0.24, ethers@^5.4.1, ethers@^5.4.7:
+ethers@^5.0.24, ethers@^5.4.1:
   version "5.4.7"
   resolved "https://registry.yarnpkg.com/ethers/-/ethers-5.4.7.tgz#0fd491a5da7c9793de2d6058d76b41b1e7efba8f"
   integrity sha512-iZc5p2nqfWK1sj8RabwsPM28cr37Bpq7ehTQ5rWExBr2Y09Sn1lDKZOED26n+TsZMye7Y6mIgQ/1cwpSD8XZew==
