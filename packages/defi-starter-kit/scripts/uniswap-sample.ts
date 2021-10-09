@@ -1,27 +1,26 @@
 import hre from 'hardhat';
-import { GET_ACCOUNTS } from '../tasks';
 import { FeeAmount } from '@uniswap/v3-sdk';
 
-import { Weth, WETH_DEPLOY } from '@thenextblock/hardhat-weth-plugin';
+import { deployWeth9 } from '@thenextblock/hardhat-weth';
 import {
   ADD_UNISWAP_POOL_LIQUIDITY,
   CREATE_UNISWAP_POOL,
   DEPLOY_UNISWAP,
   SWAP_TOKENS_ON_UNISWAP,
   UniswapV3Deployment,
-} from '@thenextblock/hardhat-uniswap-plugin/src';
-import { deployErc20Token, Erc20Token } from '@thenextblock/hardhat-erc20';
+} from '@thenextblock/hardhat-uniswap-v3';
+import { deployErc20Token } from '@thenextblock/hardhat-erc20';
 
 async function main() {
-  const [deployer] = await hre.run(GET_ACCOUNTS);
+  const [deployer] = await hre.ethers.getSigners();
 
-  const weth: Weth = await hre.run(WETH_DEPLOY);
+  const weth = await deployWeth9(deployer);
 
   const uniswapV3: UniswapV3Deployment = await hre.run(DEPLOY_UNISWAP, {
-    weth: weth.contract.address,
+    weth: weth.address,
   });
 
-  const tokenA: Erc20Token = await deployErc20Token(
+  const tokenA = await deployErc20Token(
     {
       symbol: 'AAA',
       name: 'Token A',

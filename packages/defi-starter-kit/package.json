@@ -1,7 +1,7 @@
 {
-  "name": "defi-starter-kit",
+  "name": "@thenextblock/defi-starter-kit",
   "version": "1.0.1",
-  "description": "",
+  "description": "Defi starter kit project",
   "main": "index.js",
   "scripts": {
     "prettier": "prettier --write ."
@@ -35,9 +35,9 @@
     "typescript": "^4.3.5"
   },
   "dependencies": {
-    "@thenextblock/hardhat-uniswap-plugin": "^0.0.1",
-    "@thenextblock/hardhat-erc20": "^0.0.2",
-    "@thenextblock/hardhat-weth-plugin": "^0.0.1",
-    "@thenextblock/hardhat-compound": "^0.0.6"
+    "@thenextblock/hardhat-uniswap-v3": "^0.0.1",
+    "@thenextblock/hardhat-erc20": "^0.0.5",
+    "@thenextblock/hardhat-weth": "^0.0.2",
+    "@thenextblock/hardhat-compound": "^0.0.8"
   }
 }
