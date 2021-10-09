@@ -1,7 +1,7 @@
 {
-  "name": "@thenextblock/hardhat-weth-plugin",
+  "name": "@thenextblock/hardhat-weth",
   "version": "0.0.1",
-  "description": "hardhat-weth-plugin",
+  "description": "WETH deployment plugin for Hardhat",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/thenextblock/DefiToolbox.git"
@@ -24,8 +24,11 @@
     "watch": "tsc -w"
   },
   "files": [
-    "dist/src/",
-    "src/",
+    "dist/src",
+    "dist/contracts",
+    "dist/typechain",
+    "dist/artifacts/contracts/WETH.sol/WETH9.json",
+    "src",
     "*.d.ts",
     "*.d.ts.map",
     "*.js",
@@ -34,6 +37,8 @@
     "README.md"
   ],
   "devDependencies": {
+    "@typechain/ethers-v5": "^7.0.1",
+    "@typechain/hardhat": "^2.2.0",
     "@types/chai": "^4.2.21",
     "@types/fs-extra": "^9.0.12",
     "@types/mocha": "^9.0.0",
@@ -46,6 +51,7 @@
     "tslint": "^6.1.3",
     "tslint-config-prettier": "^1.18.0",
     "tslint-plugin-prettier": "^2.3.0",
+    "typechain": "^5.1.2",
     "typescript": "^4.3.5",
     "pretty-quick": "^3.1.1",
     "solhint": "^3.3.6",
