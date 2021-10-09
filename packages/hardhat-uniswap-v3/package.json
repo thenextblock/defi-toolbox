@@ -32,8 +32,6 @@
     "README.md"
   ],
   "devDependencies": {
-    "@thenextblock/hardhat-erc20-plugin": "^0.0.1",
-    "@thenextblock/hardhat-weth-plugin": "^0.0.1",
     "@types/chai": "^4.2.21",
     "@types/fs-extra": "^9.0.12",
     "@types/mocha": "^9.0.0",
@@ -55,7 +53,8 @@
   },
   "dependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.2",
-    "@tenderly/hardhat-tenderly": "^1.0.12",
+    "@thenextblock/hardhat-erc20": "^0.0.5",
+    "@thenextblock/hardhat-weth": "^0.0.2",
     "@typechain/ethers-v5": "^7.0.1",
     "@typechain/hardhat": "^2.2.0",
     "ethers": "^5.4.1",
@@ -66,8 +65,6 @@
     "@uniswap/v3-sdk": "^3.2.1"
   },
   "peerDependencies": {
-    "hardhat": "^2.6.0",
-    "@thenextblock/hardhat-erc20": "^0.0.2",
-    "@thenextblock/hardhat-weth-plugin": "^0.0.1"
+    "hardhat": "^2.6.5"
   }
 }

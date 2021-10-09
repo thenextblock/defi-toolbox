@@ -1,5 +1,5 @@
 import '@nomiclabs/hardhat-ethers';
-import { Erc20Token__factory } from '@thenextblock/hardhat-erc20/dist/typechain';
+import { Erc20Token__factory } from '@thenextblock/hardhat-erc20';
 import { CurrencyAmount, Percent, Token, TradeType } from '@uniswap/sdk-core';
 import {
   encodeSqrtRatioX96,
