@@ -3,7 +3,7 @@
 Example:
 
 ```typescript
-import { deployWeth } from '@thenextblock/hadrahat-weth';
+import { deployWeth } from '@thenextblock/hardhat-weth';
 ...
 const weth = await deployWeth(signer);
 ```

@@ -1,6 +1,6 @@
 {
   "name": "@thenextblock/hardhat-weth",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "WETH deployment plugin for Hardhat",
   "repository": {
     "type": "git",
